@@ -3,13 +3,20 @@ import matplotlib.pyplot as plt
 from scipy.fft import fft, fftfreq
 from scipy.io import wavfile
 
-firstpiano = wavfile.read('sound_data/piano1_mono.wav')
-secondpiano = wavfile.read('sound_data/piano2_mono.wav')
+firstpianorate, firstpianodata = wavfile.read('sound_data/piano1_mono.wav')
+secondpianorate, secondpianodata = wavfile.read('sound_data/piano2_mono.wav')
+
+firstpianodata = firstpianodata.astype(float)
+firstpianodata = firstpianodata / np.max(np.abs(firstpianodata))
+
+secondpianodata = secondpianodata.astype(float)
+secondpianodata = secondpianodata / np.max(np.abs(secondpianodata))
+
 singletrumpet = np.loadtxt('sound_data/trumpet.csv', delimiter=',')
 twotrumpets = np.loadtxt('sound_data/twotrumpetsAB.csv', delimiter=',')
 
-firstpianofft = fft(firstpiano[1], n=len(firstpiano[1]), norm=None)
-secondpianofft = fft(secondpiano[1], n=len(secondpiano[1]), norm=None)
+firstpianofft = fft(firstpianodata, n=len(firstpianodata), norm=None)
+secondpianofft = fft(secondpianodata, n=len(secondpianodata), norm=None)
 singletrumpetfft = fft(singletrumpet, n=len(singletrumpet), norm=None)
 twotrumpetsfft = fft(twotrumpets, n=len(twotrumpets), norm=None)
 
