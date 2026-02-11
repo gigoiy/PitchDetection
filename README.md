@@ -1,19 +1,43 @@
 # Pitch Detection - Signals and Systems
+
 | File Name            | Fundamental Frequency (Hz) | Simultaneous / Sequential | Notes |
 |----------------------|----------------------------|----------------------------|-------|
-| trumpet.csv          |   981.107                      | Neither                 | Single dominant fundamental |
-| twotrumpetsAB.csv    | 872.094, 981.107                   | Simultaneous                | Two trumpets playing together |
-| piano2_mono.wav      | 116.379                      | Neither?                 | One fundamental but sequential notes playing? |
-| piano1_mono.wav      | 116.23, 276.598                 | Sequential                 | Notes occur at different times |
+| piano1_mono.wav      | 116.23, 276.598 | Sequential | Piano notes occur at different times, causing multiple sequential fundamental frequencies. |
+| piano2_mono.wav      | 116.379         | Neither?   | Sequential piano notes are occuring at different times, but the FFT only shows one fundamental frequency for some reason. |
+| trumpet.csv          | 981.107         | Neither    | A single fundamental frequency occurs due to a single trumpet emitting the sound signal. |
+| twotrumpetsAB.csv    | 872.094, 981.107 | Simultaneous | Simultaneous multiple fundamental frequencies occur due to two different trumpets emitting a sound signal |
+
+## Piano1 Harmonics
+
+![piano1_mono.wav Harmonics](assets/plots/piano1_harmonics.png)
+
+## Piano2 Harmonics
+
+![piano2_mono.wav Harmonics](assets/plots/piano2_harmonics.png)
+
+## Trumpet Harmonics
+
+![trumpet.csv Harmonics](assets/plots/trumpet_harmonics.png)
+
+## TwoTrumpets Harmonics
+
+![twotrumpetsAB.csv Harmonics](assets/plots/twotrumpets_harmonics.png)
 
 ## Techniques Used to Analyze the Data
 
-- Used Scipy for signal analysis functionality such as FFT functions and used matplotlib to plot the data.
-- Normalized the data extracted from the .wav files before plotting the transforms.
+This section describes the techniques I used to analyze the sound signals and how I used the numbered equations described below.
 
-## Equations *Kind Of* Used During Analysis
+**(1):** The first step was to extract the data from the four sound signal files, two .csv files and two .wav files, into a **discrete-time signal**, formatted for Python signal analysis. I used numpy's `loadtxt()` function for the .csv files and SciPy's `wavfile.read()` function for the .wav files.
 
-So, I kind of used these equations, but SciPy did most of it for me.
+**(2):** The **discrete Fourier transform** was then performed on all four signals using SciPy's `fft()` algorithm.
+
+**(5 & 6):** To normalize the signal data that was extracted from the .wav files, I used numpy's `abs()` function to get the **magnitude of the complex signals**, then divided the magnitude of the signals by `N` to **normalize the magnitudes**.
+
+**(3):** The **FFT bins are then mapped to physical frequencies** for all four FFT signals using SciPy's `fftfreq()` function. The function uses **Equation (3)** to internally compute the results.
+
+**(7):** Because these are real signals, only the real-side of the data matters and the second half of the data is redundant. Using the **Niquist limit**, we get only the first half of each FFT signal. This is shown in our code between lines 49 and 57.
+
+### Equations Used During Analysis
 
 $$
 x[n], \quad n = 0, 1, 2, \dots, N-1
@@ -40,34 +64,22 @@ $$
 **Equation (4):** Sampling interval in seconds per sample.
 
 $$
-\Delta f = \frac{F_s}{N}
-$$
-
-**Equation (5):** Frequency resolution of the FFT.
-
-$$
 |X[k]| = \sqrt{\Re\{X[k]\}^2 + \Im\{X[k]\}^2}
 $$
 
-**Equation (6):** Magnitude of the complex FFT output.
+**Equation (5):** Magnitude of the complex FFT output.
 
 $$
 |X_{\text{norm}}[k]| = \frac{|X[k]|}{N}
 $$
 
-**Equation (7):** Normalized FFT magnitude.
+**Equation (6):** Normalized FFT magnitude.
 
 $$
 0 \le f \le \frac{F_s}{2}
 $$
 
-**Equation (8):** Frequency range of the single-sided spectrum (Nyquist limit).
-
-$$
-x_{\text{dc}}[n] = x[n] - \frac{1}{N} \sum_{n=0}^{N-1} x[n]
-$$
-
-**Equation (9):** DC offset removal from the time-domain signal.
+**Equation (7):** Frequency range of the single-sided spectrum (Nyquist limit).
 
 
 
