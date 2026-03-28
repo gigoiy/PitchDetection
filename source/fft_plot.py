@@ -5,10 +5,10 @@ from scipy.io import wavfile
 
 ### Sound signal data processing
 
-firstpianorate, firstpianodata = wavfile.read('sound_data/piano1_mono.wav')
-secondpianorate, secondpianodata = wavfile.read('sound_data/piano2_mono.wav')
-singletrumpet = np.loadtxt('sound_data/trumpet.csv', delimiter=',')
-twotrumpets = np.loadtxt('sound_data/twotrumpetsAB.csv', delimiter=',')
+firstpianorate, firstpianodata = wavfile.read('assets/sound_data/piano1_mono.wav')
+secondpianorate, secondpianodata = wavfile.read('assets/sound_data/piano2_mono.wav')
+singletrumpet = np.loadtxt('assets/sound_data/trumpet.csv', delimiter=',')
+twotrumpets = np.loadtxt('assets/sound_data/twotrumpetsAB.csv', delimiter=',')
 singletrumpetrate = 44100
 twotrumpetsrate = 44100
 
@@ -83,6 +83,7 @@ plt.ylabel("Magnitude")
 plt.title("FFT Magnitude Spectrum of piano1_mono.wav")
 plt.xlim(0, 5000)
 plt.grid(True)
+plt.savefig('assets/plots/piano1_harmonics.png')
 plt.show()
 
 plt.figure(figsize=(10, 5))
@@ -101,6 +102,7 @@ plt.xlabel("Frequency (Hz)")
 plt.ylabel("Magnitude")
 plt.title("FFT Magnitude Spectrum of piano2_mono.wav")
 plt.xlim(0, 5000)
+plt.savefig('assets/plots/piano2_harmonics.png')
 plt.grid(True)
 plt.show()
 
@@ -121,6 +123,7 @@ plt.ylabel("Magnitude")
 plt.title("FFT Magnitude Spectrum of trumpet.csv")
 plt.xlim(0, 5000)
 plt.grid(True)
+plt.savefig('assets/plots/trumpet_harmonics.png')
 plt.show()
 
 plt.figure(figsize=(10, 5))
@@ -140,4 +143,5 @@ plt.ylabel("Magnitude")
 plt.title("FFT Magnitude Spectrum of twotrumpetsAB.csv")
 plt.xlim(0, 5000)
 plt.grid(True)
+plt.savefig('assets/plots/twotrumpets_harmonics.png')
 plt.show()
