@@ -15,10 +15,10 @@ twotrumpetsrate = 44100
 ### Normalizing the data from the .wav files
 
 firstpianodata = firstpianodata.astype(float)
-firstpianodata = firstpianodata / np.max(np.abs(firstpianodata))
+firstpianodata = firstpianodata / np.max(np.abs(firstpianodata)) # Normalizes the magnitudes
 
 secondpianodata = secondpianodata.astype(float)
-secondpianodata = secondpianodata / np.max(np.abs(secondpianodata))
+secondpianodata = secondpianodata / np.max(np.abs(secondpianodata)) # Normalizes the magnitudes
 
 ### FFT on sound signal data
 
@@ -34,7 +34,8 @@ N_secondpiano = len(secondpianofft)
 N_singletrumpet = len(singletrumpetfft)
 N_twotrumpets = len(twotrumpetsfft)
 
-magnitude_firstpiano = np.abs(firstpianofft) / N_firstpiano
+# Used Equation (6) to get the magnitude
+magnitude_firstpiano = np.abs(firstpianofft) / N_firstpiano 
 magnitude_secondpiano = np.abs(secondpianofft) / N_secondpiano
 magnitude_singletrumpet = np.abs(singletrumpetfft) / N_singletrumpet
 magnitude_twotrumpets = np.abs(twotrumpetsfft) / N_twotrumpets
